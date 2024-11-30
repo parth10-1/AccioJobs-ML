@@ -104,15 +104,12 @@ function ExtractResume(resume: string, jobdescription: string) -> Resume {
     {{ jobdescription }},
 
     Your task is to rewrite the given CV to fit the job description. Follow these guidelines:
-    - Be truthful and objective to the experience listed in the CV
-    - Rearrange projects and skills according to the requirement of the job
-    - Be specific rather than general
-    - Rewrite description of work items using STAR methodology (but do not mention STAR explicitly)
-    - Fix spelling and grammar errors
-    - Write to express not impress
-    - Articulate and don't be flowery
-    - Prefer active voice over passive voice
-    
+     Be truthful and objective to the experience listed in the CV
+     Rearrange projects and skills according to the requirement of the job
+     Rewrite Job descriptions that match the job description but is also truthful
+     Fix spelling and grammar errors
+     Remove irrelevant information
+
     Extract from the updated CV. If no value is available for a field, provide an empty string:
     
     {{ ctx.output_format }}
