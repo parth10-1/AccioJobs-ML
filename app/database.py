@@ -1,23 +1,30 @@
 import psycopg2
 
-def get_job_data(conn_url, id):
+def get_job_data(conn_url):
     try:
         
         conn = psycopg2.connect(conn_url)
         
         cur = conn.cursor()
         
-        cur.execute("SELECT id, job_title, description FROM Jobs WHERE id = %s LIMIT 1", (id,))
+        #get job id from relevant jobs table
+        cur.execute("SELECT job_id FROM relevant_jobs LIMIT 1")
         
-        row = cur.fetchone()
+        job = cur.fetchone()
+        
+        #get job data from jobs table
+        cur.execute("SELECT position, description FROM jobs WHERE id = %s", (job[0],))
 
-        #Return
-        if row:
-            id, job_title, description = row
-            return job_title + " " + description
-        else:
-            return "No data found"   
-    
+        details = cur.fetchone()
+
+        
+        position, description = details
+        
+        if len(description) > 1000:
+            description = description[:1000] + "..."
+        return position + " " + description
+
+
     except psycopg2.Error as e:
         print(f"Error: {e}")
         return None
@@ -28,3 +35,5 @@ def get_job_data(conn_url, id):
             cur.close()
         if 'conn' in locals() and conn:
             conn.close()
+
+   
