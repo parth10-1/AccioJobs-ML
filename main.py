@@ -22,8 +22,6 @@ def extract_text_from_pdf():
 def extract_resume(resume_text, job_description):
     #Extract Resume
     baml_object = b.ExtractResume(resume_text, job_description).model_dump_json()
-    #assert isinstance(baml_object, Resume)
-    #json_object = json.dumps(baml_object, indent=4)
     return baml_object
 
 def main():
