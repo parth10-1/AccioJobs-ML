@@ -11,15 +11,27 @@ class Resume {
 class BasicDetails {
   contacts Contacts
   links Links
-  about_me string
+  about_me string @description(#"
+    Write the about me section of the resume in first person.
+  "#)
 }
 
 class Contacts {
-  name string
-  title string
-  email string
-  phone string
-  websiteURL string
+  name string @description(#"
+    What is the name of the person?
+  "#)
+  title string @description(#"
+    If mentioned, what is the job title of the person?
+  "#)
+  email string @description(#"
+    If mentioned, what is the professional email of the person?
+  "#)
+  phone string @description(#"
+    If mentioned, what is the phone number of the person?
+  "#)
+  websiteURL string @description(#"
+    If mentioned, what is the url of the person's website?
+  "#)
 }
 
 class Links {
@@ -38,20 +50,35 @@ class SkillsAndExpertise {
 }
 
 class Education {
-  universities University[] 
+  universities University[] @description(#"
+    List of universities the person has attended. Usually under the education header.
+  "#)
 }
 
 class University {
-  name string
-  degree string
-  major string
-  score string
+  name string @description(#"
+    What is the name of the university?
+  "#)
+  degree string @description(#"
+    What is the degree obtained by the person from this university?"#)
+  major string @description(#"
+    What is the major of the person in this degree?
+  "#)
+  score string @description(#"
+    What is the score or GPA obtained by the person in this degree?
+  "#)
   startdate string
-  enddate string
+  @description(#"
+    When did the person start studying at this university?
+  "#)
+  enddate string @description(#"
+    When did the person finish studying at this university?"#)
 }
 
 class Experience {
-  companies Company[]
+  companies Company[] @description(#"
+    List of companies or organizations the person has worked at. Usually under the experience header.
+  "#)
 }
 
 class Company {
@@ -59,8 +86,12 @@ class Company {
   position string @description(#"
     What was the job title or position of the person at this company?
   "#)
-  startdate string
-  enddate string
+  startdate string @description(#"
+    When did the person start working at this company?
+  "#)
+  enddate string @description(#"
+    When did the person stop working at this company?
+  "#)
   years int
   description_of_work string @description(#"
     What work did the person do at this company?
@@ -68,19 +99,27 @@ class Company {
   "#)
 }
 class PersonalProjects {
-  projects Project[]
+  projects Project[] @description(#"
+    List of personal projects the person has worked on. Usually under the Projects or Activites Header.
+  "#)
 }
 
 class Project {
-  name string
-  technologies_used string[]
+  name string @description(#"
+    What is the name of the project?
+  "#)
+  technologies_used string[] @description(#"
+    What technologies were used in this project?
+  "#)
   description_of_work string[] @description(#"
     What does this project do?
   "#)
 }
 
 class Awards {
-  awards Certificates[]
+  awards Certificates[] @description(#"
+    List of awards/certificates the person has received. Usually under the Awards Header.
+  "#)
 }
 
 class Certificates {
