@@ -4,14 +4,14 @@ from baml_client import b
 from baml_client.types import Resume
 import app.database as db
 import app.pdfread as pdfread
-import json
+
 
 
 def load_environment_variables():
     load_dotenv()
     return os.getenv("CONN_URL")
 
-def get_job_data(conn_url, id):
+def get_job_data(conn_url):
     #Job Data
     return db.get_job_data(conn_url)
 
@@ -28,16 +28,8 @@ def extract_resume(resume_text, job_description):
 
 def main():
     conn_url = load_environment_variables()
-    job_description = "Data Analyst"
-    resume_text = """Vaibhav Gupta
-vbv@boundaryml.com
-Experience:
-- Founder at BoundaryML
-- CV Engineer at Google
-- CV Engineer at Microsoft
-Skills:
-- Rust
-- C++"""
+    job_description = get_job_data(conn_url)
+    resume_text = extract_text_from_pdf()
     resume = extract_resume(resume_text, job_description)
     
     print(resume)
