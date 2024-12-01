@@ -39,70 +39,96 @@ def all_succeeded(checks: Dict[CheckName, Check]) -> bool:
 
 
 
-class Awards(BaseModel):
-    awards: List["Certificates"]
+class Activites(BaseModel):
+    involvements: Optional[str] = None
+    achievements: Optional[str] = None
+    volunteer: Union[List["Volunteer"], Optional[None]]
+    awards: Union[List["Award"], Optional[None]]
 
-class BasicDetails(BaseModel):
-    contacts: "Contacts"
-    links: "Links"
-    about_me: str
+class Award(BaseModel):
+    id: Optional[str] = None
+    title: Optional[str] = None
+    date: Optional[str] = None
+    awarder: Optional[str] = None
+    summary: Optional[str] = None
 
-class Certificates(BaseModel):
-    name: str
-    awarded_by: str
+class Basics(BaseModel):
+    name: Optional[str] = None
+    label: Optional[str] = None
+    email: Optional[str] = None
+    image: Optional[str] = None
+    phone: Optional[str] = None
+    url: Optional[str] = None
+    summary: Optional[str] = None
+    location: "Location"
+    relExp: Optional[str] = None
+    totalExp: Optional[str] = None
+    objective: Optional[str] = None
+    profiles: Union[List["Profile"], Optional[None]]
 
 class Company(BaseModel):
-    name: str
-    position: str
-    startdate: str
-    enddate: str
-    years: int
-    description_of_work: str
-
-class Contacts(BaseModel):
-    name: str
-    title: str
-    email: str
-    phone: str
-    websiteURL: str
+    id: Optional[str] = None
+    name: Optional[str] = None
+    position: Optional[str] = None
+    url: Optional[str] = None
+    startDate: Optional[str] = None
+    endDate: Optional[str] = None
+    highlights: Union[List[str], Optional[None]]
+    summary: Optional[str] = None
 
 class Education(BaseModel):
-    universities: List["University"]
+    universities: Union[List["University"], Optional[None]]
 
-class Experience(BaseModel):
-    companies: List["Company"]
+class Location(BaseModel):
+    address: Optional[str] = None
+    postalCode: Optional[str] = None
+    city: Optional[str] = None
+    countryCode: Optional[str] = None
+    region: Optional[str] = None
 
-class Links(BaseModel):
-    linkedin: str
-    github: str
-    others: List[str]
-
-class PersonalProjects(BaseModel):
-    projects: List["Project"]
-
-class Project(BaseModel):
-    name: str
-    technologies_used: List[str]
-    description_of_work: List[str]
+class Profile(BaseModel):
+    network: Optional[str] = None
+    username: Optional[str] = None
+    url: Optional[str] = None
 
 class Resume(BaseModel):
-    basic_details: "BasicDetails"
-    skills_and_expertise: "SkillsAndExpertise"
-    education: "Education"
-    experience: "Experience"
-    projects: "PersonalProjects"
-    awards: "Awards"
+    basics: Optional["Basics"] = None
+    skills: Optional["Skills"] = None
+    work: Optional["Work"] = None
+    education: Optional["Education"] = None
+    activities: Optional["Activites"] = None
 
-class SkillsAndExpertise(BaseModel):
-    programming_languages_known: List[str]
-    frameworks_known: List[str]
-    technologies_used: List[str]
-    languagees_known: List[str]
+class SkillDetails(BaseModel):
+    name: Optional[str] = None
+    level: Optional[int] = None
+
+class Skills(BaseModel):
+    languages: Union[List["SkillDetails"], Optional[None]]
+    frameworks: Union[List["SkillDetails"], Optional[None]]
+    technologies: Union[List["SkillDetails"], Optional[None]]
+    libraries: Union[List["SkillDetails"], Optional[None]]
 
 class University(BaseModel):
-    name: str
-    degree: str
-    major: str
-    score: str
-    startdate: str
-    enddate: str
+    id: Optional[str] = None
+    name: Optional[str] = None
+    url: Optional[str] = None
+    studyType: Optional[str] = None
+    area: Optional[str] = None
+    startDate: Optional[str] = None
+    endDate: Optional[str] = None
+    score: Optional[str] = None
+    courses: Union[List[str], Optional[None]]
+
+class Volunteer(BaseModel):
+    id: Optional[str] = None
+    organization: Optional[str] = None
+    position: Optional[str] = None
+    url: Optional[str] = None
+    startDate: Optional[str] = None
+    endDate: Optional[str] = None
+    summary: Optional[str] = None
+    highlights: Union[List[str], Optional[None]]
+    isVolunteeringNow: Optional[bool] = None
+
+class Work(BaseModel):
+    companies: Union[List["Company"], Optional[None]]

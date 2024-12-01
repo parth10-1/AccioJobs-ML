@@ -1,132 +1,208 @@
 // Defining a data model.
 class Resume {
-  basic_details BasicDetails
-  skills_and_expertise SkillsAndExpertise
-  education Education
-  experience Experience
-  projects PersonalProjects
-  awards Awards
+  basics Basics?
+  skills Skills?
+  work Work?
+  education Education?
+  activities Activites?
 }
 
-class BasicDetails {
-  contacts Contacts
-  links Links
-  about_me string @description(#"
-    Write the about me section of the resume in first person.
+class Basics {
+  name string? @description(#"
+    Name of the person.
   "#)
-}
-
-class Contacts {
-  name string @description(#"
-    What is the name of the person?
-  "#)
-  title string @description(#"
+  label string? @description(#"
     If mentioned, what is the job title of the person?
   "#)
-  email string @description(#"
-    If mentioned, what is the professional email of the person?
+  email string? @description(#"
+    Professional email
   "#)
-  phone string @description(#"
-    If mentioned, what is the phone number of the person?
+  image string? @description(#"
+    If mentioned, what is the url of the person's image?"#)
+
+  phone string? @description(#"
+    Phone number of this person.
   "#)
-  websiteURL string @description(#"
-    If mentioned, what is the url of the person's website?
+  url string? @description(#"
+    URL of personal website.
+  "#)
+  summary string? @description(#"
+    Write the about me / summary section of the resume in first person.
+  "#)
+  location Location
+
+  relExp string? @description(#"
+    What is the total years of relevant experience of the person?"#)
+
+  totalExp string? @description(#"
+    What is the total years of experience of the person?"#)
+  
+  objective string? @description(#"
+    Write in first person what this person wants to do next in career."#)
+  
+  profiles Profile[] | null @description(#"
+    List of social media profiles of the person."#)
+}
+
+class Location {
+  address string? @description(#"
+   Address of the person.
+  "#)
+  postalCode string? @description(#"
+  "#)
+  city string? @description(#"
+    city in which the person resides.
+  "#)
+  countryCode string? @description(#"
+  "#)
+  region string? @description(#"
   "#)
 }
 
-class Links {
-  linkedin string
-  github string
-  others string[] 
+class Profile{
+  network string? @description(#"
+    Name of the social network"#)
+  username string? @description(#"
+    username of the person on this network?"#)
+  url string? @description(#"
+    url of the person on this network?"#)
 }
 
-class SkillsAndExpertise {
-  programming_languages_known string[]
-  frameworks_known string[]
-  technologies_used string[]
-  languagees_known string[] @description(#"
-    What languages does this person speak?
+
+class Skills {
+  languages SkillDetails[] | null @description(#"
+    What programming languages does this person know?
+  "#)
+  frameworks SkillDetails[] | null @description(#"
+    What frameworks has this person know as per CV?"#)
+  technologies SkillDetails[] | null @description(#"
+    What technologies has this person mentioned in the CV?
+  "#)
+  libraries SkillDetails[] | null @description(#"
+    What libraries has this person mentioned in the CV?
   "#) 
 }
 
+class SkillDetails {
+  name string? @description(#"
+    name of the skill?
+  "#)
+  level int? @description(#"
+   level of the skill?
+  "#)
+}
+
 class Education {
-  universities University[] @description(#"
+  universities University[] | null @description(#"
     List of universities the person has attended. Usually under the education header.
   "#)
 }
 
 class University {
-  name string @description(#"
-    What is the name of the university?
+  id string? @description(#"
+    Increamental"#)
+
+  name string? @description(#"
+    name of the university
   "#)
-  degree string @description(#"
-    What is the degree obtained by the person from this university?"#)
-  major string @description(#"
-    What is the major of the person in this degree?
+
+  url string? @description(#"
+    URL of the university"#)
+
+  studyType string? @description(#"
+    degree obtained by the person from this university?
   "#)
-  score string @description(#"
-    What is the score or GPA obtained by the person in this degree?
+
+  area string? @description(#"
+   major of the person in this degree?
   "#)
-  startdate string
-  @description(#"
-    When did the person start studying at this university?
+
+  startDate string?
+  
+  endDate string? 
+
+  score string? @description(#"
+    Score or GPA obtained of the person in this degree?
   "#)
-  enddate string @description(#"
-    When did the person finish studying at this university?"#)
+  courses string[] | null @description(#"
+    List of courses taken by the person in this degree.
+  "#)
 }
 
-class Experience {
-  companies Company[] @description(#"
+class Work {
+  companies Company[] | null @description(#"
     List of companies or organizations the person has worked at. Usually under the experience header.
   "#)
 }
 
 class Company {
-  name string
-  position string @description(#"
-    What was the job title or position of the person at this company?
+  id string? @description(#"
+    Increamental"#)
+
+  name string?
+  position string? @description(#"
+    job title or position of the person at this company?
   "#)
-  startdate string @description(#"
-    When did the person start working at this company?
-  "#)
-  enddate string @description(#"
-    When did the person stop working at this company?
-  "#)
-  years int
-  description_of_work string @description(#"
+  url string? @description(#"
+    URL of the company"#)
+  startDate string?
+  endDate string? 
+  highlights string[] | null @description(#"
     What work did the person do at this company?
     What responsibilites were handeled by the person at this company?
   "#)
+  summary string? 
 }
-class PersonalProjects {
-  projects Project[] @description(#"
-    List of personal projects the person has worked on. Usually under the Projects or Activites Header.
+class Activites {
+  involvements string? @description(#"
+    Describe the person's involvement in the community or any other activities.
   "#)
-}
+  achievements string? @description(#"
+    Describe the person's certifications mentioned in the resume."
+  "#)
+  volunteer Volunteer[] | null @description(#"
+    List of volunteer work done by the person.
+  "#)
 
-class Project {
-  name string @description(#"
-    What is the name of the project?
-  "#)
-  technologies_used string[] @description(#"
-    What technologies were used in this project?
-  "#)
-  description_of_work string[] @description(#"
-    What does this project do?
-  "#)
-}
-
-class Awards {
-  awards Certificates[] @description(#"
+  awards Award[] | null @description(#"
     List of awards/certificates the person has received. Usually under the Awards Header.
   "#)
+
 }
 
-class Certificates {
-  name string
-  awarded_by string @description(#"
-    Who awarded this award/certificate/course?
+class Volunteer {
+  id string? @description(#"
+    Increamental"#)
+  organization string? @description(#"
+    name of the project?
   "#)
+  position string? @description(#"
+    position of the person in this organization?
+  "#)
+  url string? @description(#"
+    URL of the organization"#)
+  startDate string?
+  endDate string?
+  summary string? @description(#"
+    What was the summary of the work done at this organization?
+  "#)
+  highlights string[] | null @description(#"
+    What work did the person do at this organization?
+    What responsibilites were handeled by the person at this organization?
+  "#)
+  isVolunteeringNow bool?
+}
+
+class Award {
+  id string?
+  title string? @description(#"
+    title of the award?
+  "#)
+  date string?
+  awarder string? @description(#"
+    Who gave the award?
+  "#)
+  summary string?
 }
 
 
@@ -134,22 +210,28 @@ class Certificates {
 function ExtractResume(resume: string, jobdescription: string) -> Resume {
   // Specify a client as provider/model-name
   // you can use custom LLM params with a custom client name from clients.baml like "client CustomHaiku"
-  client Llama3 // Set OPENAI_API_KEY to use this client.
-  prompt #"
+  client Llama3_2 // Set OPENAI_API_KEY to use this client.
+  prompt #" 
+    {{_.role('system')}}
+
+    <|start_header_id|>system<|end_header_id|>
+    Your task is to rewrite the given CV to fit the job description. Follow these guidelines:
+     Be truthful and objective to the experience listed in the CV.
+     Rearrange projects and skills according to the requirement of the job
+     Rewrite Job descriptions that match the job description but is also truthful
+     Fix spelling and grammar errors
+     Remove irrelevant information.
+    <|eot_id|>
+
+    {{_.role('user')}}
+    <|start_header_id|>user<|end_header_id|>
     Given a resume
     {{ resume }}
     
     and a job description 
     {{ jobdescription }},
-
-    Your task is to rewrite the given CV to fit the job description. Follow these guidelines:
-     Be truthful and objective to the experience listed in the CV
-     Rearrange projects and skills according to the requirement of the job
-     Rewrite Job descriptions that match the job description but is also truthful
-     Fix spelling and grammar errors
-     Remove irrelevant information
-
-    Extract from the updated CV. If no value is available for a field, provide an empty string:
+    
+    Extract from the updated CV. If no value is available for a field, provide an null value. <|eot_id|>
     
     {{ ctx.output_format }}
   "#
