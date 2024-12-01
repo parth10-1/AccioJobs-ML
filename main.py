@@ -30,7 +30,8 @@ def main():
     resume_text = extract_text_from_pdf()
     resume = extract_resume(resume_text, job_description)
     
-    print(resume)
+    with open('resume.json', "w") as f:
+        f.write(resume)
 
 if __name__ == "__main__":
     main()
