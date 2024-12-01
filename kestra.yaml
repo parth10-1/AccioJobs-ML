@@ -1,0 +1,44 @@
+id: resume_update
+namespace: resumeupdates
+
+variables:
+  repo_url: "https://github.com/parth10-1/AccioJobs-ML.git"
+  clone_dir: "/tmp/resumeupdates"
+  
+tasks:
+  - id: fetch_updation_files
+    type: io.kestra.plugin.core.flow.WorkingDirectory
+    tasks:
+      - id: clone_repo
+        type: io.kestra.plugin.git.Clone
+        url: "https://github.com/parth10-1/AccioJobs-ML.git"
+        branch: main
+
+      - id: run_main_commands
+        type: io.kestra.plugin.scripts.python.Script
+        namespaceFiles:
+          enabled: true
+        taskRunner:
+          type: io.kestra.plugin.scripts.runner.docker.Docker
+        containerImage: python:3.13.0-bookworm
+        beforeCommands: 
+          - pip install baml psycopg2-binary pymupdf
+        script: |
+            from baml_client import b
+            from baml_client.types import Resume
+            import app.database as db
+            import app.pdfread as pdfread
+
+
+            def extract_resume(resume_text, job_description):
+                #Extract Resume
+                baml_object = b.ExtractResume(resume_text, job_description).model_dump_json()
+                return baml_object
+
+
+            conn_url = "postgresql://accio:Abcd%401234azu@accio-wemakedevs.postgres.database.azure.com:5432/postgres?sslmode=require"
+            job_description, job_id = db.get_job_data(conn_url, user_id)
+            resume_text = pdfread.extract_text_from_pdf()
+            resume = extract_resume(resume_text, job_description)
+            db.save_resume(resume, conn_url, job_id)
+
