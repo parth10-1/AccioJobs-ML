@@ -23,17 +23,13 @@ def extract_resume(resume_text, job_description):
     baml_object = b.ExtractResume(resume_text, job_description).model_dump_json()
     return baml_object
 
-def save_resume(resume):
-    pass
 
 def main():
     conn_url = load_environment_variables()
-    job_description = get_job_data(conn_url)
+    job_description, job_id = get_job_data(conn_url, user_id)
     resume_text = extract_text_from_pdf()
     resume = extract_resume(resume_text, job_description)
-    
-    with open('resume.json', "w") as f:
-        f.write(resume)
+    db.save_resume(resume, conn_url, job_id)
 
 if __name__ == "__main__":
     main()

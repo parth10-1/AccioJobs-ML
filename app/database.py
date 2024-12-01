@@ -1,8 +1,9 @@
 import psycopg2
 import os
 from dotenv import load_dotenv
+import json
 
-def get_job_data(conn_url):
+def get_job_data(conn_url, user_id):
     try:
         
         conn = psycopg2.connect(conn_url)
@@ -24,7 +25,7 @@ def get_job_data(conn_url):
         position, description = details
         if len(description) > 1000:
             description = description[:1000] + "..."
-        return position + " " + description 
+        return (position + " " + description, job[0])
     
     except psycopg2.Error as e:
         print(f"Error: {e}")
@@ -37,12 +38,23 @@ def get_job_data(conn_url):
         if 'conn' in locals() and conn:
             conn.close()
 
-def save_resume(resume):
+def save_resume(resume, user_id, job_id, conn_url):
     try:
+        resume_str = json.dumps(resume)
+        resume_bytes = resume_str.encode('utf-8')
+
         conn = psycopg2.connect(conn_url)
         cur = conn.cursor()
-        cur.execute('INSERT INTO "Resume" (resume) VALUES (%s)', (resume,))
+        cur.execute('''
+                UPDATE "RelevantJob" 
+                SET resume = %s 
+                WHERE "userId" = %s AND "jobId" = %s
+            ''', (resume_bytes, user_id, job_id))
+            
+            # Commit transaction
         conn.commit()
+        return True
+    
     except psycopg2.Error as e:
         print(f"Error: {e}")
     finally:
