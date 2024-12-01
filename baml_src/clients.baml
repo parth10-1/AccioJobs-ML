@@ -5,7 +5,7 @@ client<llm> Llama3_2 {
   options {
     base_url "https://api-inference.huggingface.co/models/meta-llama/Llama-3.2-3B-Instruct/v1/"
     model "meta-llama/Llama-3.2-3B-Instruct"
-    api_key "API_KEY"
+    api_key env.API_KEY
     timeout_ms 60000
     request_timeout_ms 30000
     max_tokens 2000

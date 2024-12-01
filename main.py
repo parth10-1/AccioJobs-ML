@@ -6,7 +6,6 @@ import app.database as db
 import app.pdfread as pdfread
 
 
-
 def load_environment_variables():
     load_dotenv()
     return os.getenv("CONN_URL")
@@ -23,6 +22,9 @@ def extract_resume(resume_text, job_description):
     #Extract Resume
     baml_object = b.ExtractResume(resume_text, job_description).model_dump_json()
     return baml_object
+
+def save_resume(resume):
+    pass
 
 def main():
     conn_url = load_environment_variables()
