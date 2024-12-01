@@ -1,6 +1,5 @@
 import psycopg2
 import os
-from dotenv import load_dotenv
 import json
 
 def get_job_data(conn_url, user_id):
@@ -63,9 +62,3 @@ def save_resume(resume, user_id, job_id, conn_url):
             cur.close()
         if 'conn' in locals() and conn:
             conn.close()
-
-if __name__ == "__main__":
-    load_dotenv()
-    conn_url = os.getenv("CONN_URL")
-    print(get_job_data(conn_url))
-   
